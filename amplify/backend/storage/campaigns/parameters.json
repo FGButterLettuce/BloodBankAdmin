@@ -1,0 +1,5 @@
+{
+    "tableName": "campaigns",
+    "partitionKeyName": "cid",
+    "partitionKeyType": "S"
+}

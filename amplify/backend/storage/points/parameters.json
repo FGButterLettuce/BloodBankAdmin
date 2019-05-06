@@ -1,0 +1,5 @@
+{
+    "tableName": "points",
+    "partitionKeyName": "eid",
+    "partitionKeyType": "S"
+}

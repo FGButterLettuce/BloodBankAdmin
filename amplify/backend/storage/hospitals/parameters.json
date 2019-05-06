@@ -1,0 +1,5 @@
+{
+    "tableName": "hospitals",
+    "partitionKeyName": "hid",
+    "partitionKeyType": "S"
+}

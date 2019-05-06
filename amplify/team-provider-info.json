@@ -1,0 +1,19 @@
+{
+    "ionic": {
+        "awscloudformation": {
+            "AuthRoleName": "bloodbankapplication-20190422163050-authRole",
+            "UnauthRoleArn": "arn:aws:iam::818741783739:role/bloodbankapplication-20190422163050-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::818741783739:role/bloodbankapplication-20190422163050-authRole",
+            "Region": "eu-west-1",
+            "DeploymentBucketName": "bloodbankapplication-20190422163050-deployment",
+            "UnauthRoleName": "bloodbankapplication-20190422163050-unauthRole",
+            "StackName": "bloodbankapplication-20190422163050",
+            "StackId": "arn:aws:cloudformation:eu-west-1:818741783739:stack/bloodbankapplication-20190422163050/76b97ce0-64fa-11e9-9368-0ae78d106d3e"
+        },
+        "categories": {
+            "auth": {
+                "cognitof8066863": {}
+            }
+        }
+    }
+}

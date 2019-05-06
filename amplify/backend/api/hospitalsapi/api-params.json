@@ -1,0 +1,34 @@
+{
+    "paths": [
+        {
+            "name": "/hospitals",
+            "lambdaFunction": "hospitalsfunction",
+            "privacy": {
+                "open": true
+            }
+        }
+    ],
+    "resourceName": "hospitalsapi",
+    "apiName": "hospitalsapi",
+    "functionArns": [
+        {
+            "lambdaFunction": "hospitalsfunction"
+        }
+    ],
+    "privacy": {
+        "auth": 0,
+        "unauth": 0,
+        "authRoleName": "bloodbankapplication-20190422163050-authRole",
+        "unAuthRoleName": "bloodbankapplication-20190422163050-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "hospitalsfunction",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ]
+}

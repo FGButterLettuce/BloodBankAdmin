@@ -1,0 +1,34 @@
+{
+    "paths": [
+        {
+            "name": "/donor",
+            "lambdaFunction": "donor",
+            "privacy": {
+                "open": true
+            }
+        }
+    ],
+    "resourceName": "donor",
+    "apiName": "donor",
+    "functionArns": [
+        {
+            "lambdaFunction": "donor"
+        }
+    ],
+    "privacy": {
+        "auth": 0,
+        "unauth": 0,
+        "authRoleName": "bloodbankapplication-20190422163050-authRole",
+        "unAuthRoleName": "bloodbankapplication-20190422163050-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "donor",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ]
+}

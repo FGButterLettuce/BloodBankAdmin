@@ -1,0 +1,34 @@
+{
+    "paths": [
+        {
+            "name": "/campaigns",
+            "lambdaFunction": "campaignsfunction",
+            "privacy": {
+                "open": true
+            }
+        }
+    ],
+    "resourceName": "campaignsapi",
+    "apiName": "campaignsapi",
+    "functionArns": [
+        {
+            "lambdaFunction": "campaignsfunction"
+        }
+    ],
+    "privacy": {
+        "auth": 0,
+        "unauth": 0,
+        "authRoleName": "bloodbankapplication-20190422163050-authRole",
+        "unAuthRoleName": "bloodbankapplication-20190422163050-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "campaignsfunction",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ]
+}

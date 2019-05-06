@@ -1,0 +1,213 @@
+{
+	"auth": {
+		"cognitof8066863": {
+			"service": "Cognito",
+			"providerPlugin": "awscloudformation"
+		}
+	},
+	"storage": {
+		"donor": {
+			"service": "DynamoDB",
+			"providerPlugin": "awscloudformation"
+		},
+		"points": {
+			"service": "DynamoDB",
+			"providerPlugin": "awscloudformation"
+		},
+		"hospitals": {
+			"service": "DynamoDB",
+			"providerPlugin": "awscloudformation"
+		},
+		"campaigns": {
+			"service": "DynamoDB",
+			"providerPlugin": "awscloudformation"
+		},
+		"donations": {
+			"service": "DynamoDB",
+			"providerPlugin": "awscloudformation"
+		},
+		"records": {
+			"service": "DynamoDB",
+			"providerPlugin": "awscloudformation"
+		}
+	},
+	"analytics": {},
+	"function": {
+		"donor": {
+			"service": "Lambda",
+			"providerPlugin": "awscloudformation",
+			"build": true,
+			"dependsOn": [
+				{
+					"category": "storage",
+					"resourceName": "donor",
+					"attributes": [
+						"Name",
+						"Arn"
+					]
+				}
+			]
+		},
+		"pointsfn": {
+			"service": "Lambda",
+			"providerPlugin": "awscloudformation",
+			"build": true,
+			"dependsOn": [
+				{
+					"category": "storage",
+					"resourceName": "points",
+					"attributes": [
+						"Name",
+						"Arn"
+					]
+				}
+			]
+		},
+		"hospitalsfunction": {
+			"service": "Lambda",
+			"providerPlugin": "awscloudformation",
+			"build": true,
+			"dependsOn": [
+				{
+					"category": "storage",
+					"resourceName": "hospitals",
+					"attributes": [
+						"Name",
+						"Arn"
+					]
+				}
+			]
+		},
+		"campaignsfunction": {
+			"service": "Lambda",
+			"providerPlugin": "awscloudformation",
+			"build": true,
+			"dependsOn": [
+				{
+					"category": "storage",
+					"resourceName": "campaigns",
+					"attributes": [
+						"Name",
+						"Arn"
+					]
+				}
+			]
+		},
+		"donationsfunction": {
+			"service": "Lambda",
+			"providerPlugin": "awscloudformation",
+			"build": true,
+			"dependsOn": [
+				{
+					"category": "storage",
+					"resourceName": "donations",
+					"attributes": [
+						"Name",
+						"Arn"
+					]
+				}
+			]
+		},
+		"recordsfunction": {
+			"service": "Lambda",
+			"providerPlugin": "awscloudformation",
+			"build": true,
+			"dependsOn": [
+				{
+					"category": "storage",
+					"resourceName": "records",
+					"attributes": [
+						"Name",
+						"Arn"
+					]
+				}
+			]
+		}
+	},
+	"api": {
+		"donor": {
+			"service": "API Gateway",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": [
+				{
+					"category": "function",
+					"resourceName": "donor",
+					"attributes": [
+						"Name",
+						"Arn"
+					]
+				}
+			]
+		},
+		"points": {
+			"service": "API Gateway",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": [
+				{
+					"category": "function",
+					"resourceName": "pointsfn",
+					"attributes": [
+						"Name",
+						"Arn"
+					]
+				}
+			]
+		},
+		"hospitalsapi": {
+			"service": "API Gateway",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": [
+				{
+					"category": "function",
+					"resourceName": "hospitalsfunction",
+					"attributes": [
+						"Name",
+						"Arn"
+					]
+				}
+			]
+		},
+		"campaignsapi": {
+			"service": "API Gateway",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": [
+				{
+					"category": "function",
+					"resourceName": "campaignsfunction",
+					"attributes": [
+						"Name",
+						"Arn"
+					]
+				}
+			]
+		},
+		"donationsapi": {
+			"service": "API Gateway",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": [
+				{
+					"category": "function",
+					"resourceName": "donationsfunction",
+					"attributes": [
+						"Name",
+						"Arn"
+					]
+				}
+			]
+		},
+		"recordsapi": {
+			"service": "API Gateway",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": [
+				{
+					"category": "function",
+					"resourceName": "recordsfunction",
+					"attributes": [
+						"Name",
+						"Arn"
+					]
+				}
+			]
+		}
+	}
+}

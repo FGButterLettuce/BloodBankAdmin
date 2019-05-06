@@ -1,0 +1,34 @@
+{
+    "paths": [
+        {
+            "name": "/donations",
+            "lambdaFunction": "donationsfunction",
+            "privacy": {
+                "open": true
+            }
+        }
+    ],
+    "resourceName": "donationsapi",
+    "apiName": "donationsapi",
+    "functionArns": [
+        {
+            "lambdaFunction": "donationsfunction"
+        }
+    ],
+    "privacy": {
+        "auth": 0,
+        "unauth": 0,
+        "authRoleName": "bloodbankapplication-20190422163050-authRole",
+        "unAuthRoleName": "bloodbankapplication-20190422163050-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "donationsfunction",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ]
+}

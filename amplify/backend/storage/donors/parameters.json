@@ -1,0 +1,5 @@
+{
+    "tableName": "donors",
+    "partitionKeyName": "eid",
+    "partitionKeyType": "S"
+}

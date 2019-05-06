@@ -1,1 +1,44 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins');
 
+
+ion-content{
+    font-family: "Poppins", sans-serif;
+
+}
+ion-input{
+  width:800px;
+  font-family: "Poppins", sans-serif;
+}
+
+ion-chip{
+  font-family: "Poppins", sans-serif;
+}
+
+h1{
+  font-size: 2.5em;
+  font-family: "Poppins", sans-serif;
+}
+
+ion-card{
+  width:700px;
+  max-height:900px;
+}
+ion-card-title{
+  padding-top: 40px;
+  font-family: "Poppins", sans-serif;
+
+}
+
+.center-div
+{
+  position: absolute;
+  margin: auto;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 700px;
+  height: 400px;
+//   background-color: #ccc;
+  border-radius: 3px;
+}

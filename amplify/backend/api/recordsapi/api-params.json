@@ -1,0 +1,34 @@
+{
+    "paths": [
+        {
+            "name": "/records",
+            "lambdaFunction": "recordsfunction",
+            "privacy": {
+                "open": true
+            }
+        }
+    ],
+    "resourceName": "recordsapi",
+    "apiName": "recordsapi",
+    "functionArns": [
+        {
+            "lambdaFunction": "recordsfunction"
+        }
+    ],
+    "privacy": {
+        "auth": 0,
+        "unauth": 0,
+        "authRoleName": "bloodbankapplication-20190422163050-authRole",
+        "unAuthRoleName": "bloodbankapplication-20190422163050-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "recordsfunction",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ]
+}

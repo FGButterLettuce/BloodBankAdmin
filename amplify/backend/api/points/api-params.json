@@ -1,0 +1,34 @@
+{
+    "paths": [
+        {
+            "name": "/points",
+            "lambdaFunction": "pointsfn",
+            "privacy": {
+                "open": true
+            }
+        }
+    ],
+    "resourceName": "points",
+    "apiName": "points",
+    "functionArns": [
+        {
+            "lambdaFunction": "pointsfn"
+        }
+    ],
+    "privacy": {
+        "auth": 0,
+        "unauth": 0,
+        "authRoleName": "bloodbankapplication-20190422163050-authRole",
+        "unAuthRoleName": "bloodbankapplication-20190422163050-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "pointsfn",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ]
+}
