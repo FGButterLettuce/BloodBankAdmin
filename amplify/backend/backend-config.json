@@ -29,6 +29,10 @@
 		"records": {
 			"service": "DynamoDB",
 			"providerPlugin": "awscloudformation"
+		},
+		"inventory": {
+			"service": "DynamoDB",
+			"providerPlugin": "awscloudformation"
 		}
 	},
 	"analytics": {},
@@ -122,6 +126,21 @@
 					]
 				}
 			]
+		},
+		"inventoryfunctions": {
+			"service": "Lambda",
+			"providerPlugin": "awscloudformation",
+			"build": true,
+			"dependsOn": [
+				{
+					"category": "storage",
+					"resourceName": "inventory",
+					"attributes": [
+						"Name",
+						"Arn"
+					]
+				}
+			]
 		}
 	},
 	"api": {
@@ -202,6 +221,20 @@
 				{
 					"category": "function",
 					"resourceName": "recordsfunction",
+					"attributes": [
+						"Name",
+						"Arn"
+					]
+				}
+			]
+		},
+		"inventoryapi": {
+			"service": "API Gateway",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": [
+				{
+					"category": "function",
+					"resourceName": "inventoryfunctions",
 					"attributes": [
 						"Name",
 						"Arn"

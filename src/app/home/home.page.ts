@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AmplifyService } from 'aws-amplify-angular';
 import { AlertController } from '@ionic/angular';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-home',
@@ -23,8 +24,12 @@ export class HomePage {
   input;
   loading = false;
 
-  constructor(public amplify: AmplifyService, public alertController: AlertController) {
+  emergencyblood;
+  emergencyhname;
+  alerts
+  constructor(public afs: AngularFirestore, public amplify: AmplifyService, public alertController: AlertController) {
     this.init();
+    this.alerts = this.afs.collection('inventoryalerts')
   }
 
   async presentAlert(data) {
@@ -55,10 +60,8 @@ export class HomePage {
     this.loading = true;
     if (!this.input) {
       await this.amplify.api().get('recordsapi', '/records', {}).then((res) => {
-        console.log("reached api call")
         if (res && res.length > 0) {
           this.outputvalues = res;
-          console.log(this.outputvalues)
           this.recordres = true;
           this.loading = false;
         }
@@ -70,7 +73,6 @@ export class HomePage {
       await this.amplify.api().get('recordsapi', `/records/${this.input}`, {}).then((res) => {
         if (res && res.length > 0) {
           this.outputvalues = res;
-          console.log(this.outputvalues)
           this.output = true;
           this.recordres = true;
           this.loading = false;
@@ -86,7 +88,6 @@ export class HomePage {
     this.loading = true;
     if (!this.input) {
       await this.amplify.api().get('donationsapi', '/donations', {}).then((res) => {
-        console.log("reached api call")
         if (res && res.length > 0) {
           this.outputvalues = res;
           console.log(this.outputvalues)
@@ -102,7 +103,6 @@ export class HomePage {
       await this.amplify.api().get('donationsapi', `/donations/${this.input}`, {}).then((res) => {
         if (res && res.length > 0) {
           this.outputvalues = res;
-          console.log(this.outputvalues)
           this.output = true;
           this.donationres = true;
           this.loading = false;
@@ -120,10 +120,8 @@ export class HomePage {
 
     if (!this.input) {
       await this.amplify.api().get('donor', '/donor', {}).then((res) => {
-        console.log("reached api call")
         if (res && res.length > 0) {
           this.outputvalues = res;
-          console.log(this.outputvalues)
           this.donorres = true;
           this.loading = false;
 
@@ -137,7 +135,6 @@ export class HomePage {
       await this.amplify.api().get('donor', `/donor/${this.input}`, {}).then((res) => {
         if (res && res.length > 0) {
           this.outputvalues = res;
-          console.log(this.outputvalues)
           this.output = true;
           this.donorres = true;
           this.loading = false;
@@ -157,7 +154,6 @@ export class HomePage {
         console.log("reached api call")
         if (res && res.length > 0) {
           this.outputvalues = res;
-          console.log(this.outputvalues)
           this.hospitalres = true;
           this.loading = false;
         }
@@ -172,7 +168,6 @@ export class HomePage {
       await this.amplify.api().get('hospitalsapi', `/hospitals/${this.input}`, {}).then((res) => {
         if (res && res.length > 0) {
           this.outputvalues = res;
-          console.log(this.outputvalues)
           this.output = true;
           this.hospitalres = true;
           this.loading = false;
@@ -187,27 +182,22 @@ export class HomePage {
     this.output = true;
     this.loading = true;
     if (!this.input) {
-      await this.amplify.api().get('inventory', '/inventory', {}).then((res) => {
+      await this.amplify.api().get('inventoryapi', '/inventory', {}).then((res) => {
         console.log("reached api call")
         if (res && res.length > 0) {
           this.outputvalues = res;
-          console.log(this.outputvalues)
           this.inventoryres = true;
           this.loading = false;
-
         }
         else
           this.presentAlert("Error issa blanka");
       }).catch(err => console.log(err))
-
-
 
     }
     else {
       await this.amplify.api().get('inventory', `/inventory/${this.input}`, {}).then((res) => {
         if (res && res.length > 0) {
           this.outputvalues = res;
-          console.log(this.outputvalues)
           this.output = true;
           this.inventoryres = true;
           this.loading = false;
@@ -226,8 +216,6 @@ export class HomePage {
         console.log("reached api call")
         if (res && res.length > 0) {
           this.outputvalues = res;
-          console.log(this.outputvalues)
-          console.log("TCL: this.outputvalues", this.outputvalues[0].points[0])
           this.pointres = true;
           this.loading = false;
 
@@ -262,10 +250,8 @@ export class HomePage {
 
     if (!this.input) {
       await this.amplify.api().get('campaignsapi', '/campaigns', {}).then((res) => {
-        console.log("reached api call")
         if (res && res.length > 0) {
           this.outputvalues = res;
-          console.log(this.outputvalues)
           this.campaignres = true;
           this.loading = false;
         }
@@ -288,5 +274,28 @@ export class HomePage {
           this.presentAlert("No record found");
       })
     }
+  }
+  emergency() {
+    if (this.emergencyblood && this.emergencyhname) {
+      var alrt = {
+        blood: this.emergencyblood,
+        hname: this.emergencyhname
+      }
+      this.alerts.add(alrt);
+      this.emergencyblood = null;
+      this.emergencyhname = null
+    }
+    else
+      this.presentAlert("Enter details");
+  }
+  addpoints(eid){
+    for(let i of this.outputvalues){
+      if(i.eid == eid){
+        i.points.push({date: new Date(), point: 500})
+        this.amplify.api().put('pointsapi','/points',i)
+
+      }
+    }
+
   }
 }

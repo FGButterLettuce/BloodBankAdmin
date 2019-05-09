@@ -1,0 +1,34 @@
+{
+    "paths": [
+        {
+            "name": "/inventory",
+            "lambdaFunction": "inventoryfunctions",
+            "privacy": {
+                "open": true
+            }
+        }
+    ],
+    "resourceName": "inventoryapi",
+    "apiName": "inventoryapi",
+    "functionArns": [
+        {
+            "lambdaFunction": "inventoryfunctions"
+        }
+    ],
+    "privacy": {
+        "auth": 0,
+        "unauth": 0,
+        "authRoleName": "bloodbankapplication-20190422163050-authRole",
+        "unAuthRoleName": "bloodbankapplication-20190422163050-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "inventoryfunctions",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ]
+}

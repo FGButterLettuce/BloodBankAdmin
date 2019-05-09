@@ -9,7 +9,7 @@
     <ion-chip color="secondary" (click)="donations()">Donations</ion-chip>
     <ion-chip color="tertiary" (click)="donors()">Donors</ion-chip>
     <ion-chip color="warning" (click)="hospitals()">Hospitals</ion-chip>
-    <ion-chip color="success">Inventory</ion-chip>
+    <ion-chip color="success"(click)="inventory()">Inventory</ion-chip>
     <ion-chip color="danger" (click)="points()">Points</ion-chip>
     <ion-chip color="medium" (click)="campaigns()">Campaigns</ion-chip>
 
@@ -81,7 +81,23 @@
 
       <div class="inventory" *ngIf="inventoryres">
         <ion-card-title text-center>Inventory</ion-card-title>
-        <!-- todotodotodoooo -->
+        <ion-item>
+            <ion-col text-center>Blood Group</ion-col>
+            <ion-col text-center>Reserve Levels</ion-col>
+          </ion-item>
+        <ion-list *ngFor="let i of outputvalues">
+          <ion-item>
+            <ion-col text-center>
+              {{i.bloodgroup}}
+            </ion-col>
+            <ion-col>
+              {{i.reservelevels}}
+            </ion-col>
+          </ion-item>
+        </ion-list>
+        <ion-label>Enter Blood</ion-label><ion-input [(ngModel)]="emergencyblood" placeholder = "Blood Type"></ion-input>
+        <ion-label>Enter Name of Hospital</ion-label><ion-input [(ngModel)]="emergencyhname" placeholder = "Hospital Name"></ion-input>
+        <ion-button shape="round" color="danger" (click) = "emergency()">Send Emergency Request</ion-button>        
       </div>
 
       <div class="point" *ngIf="pointres">
@@ -97,7 +113,7 @@
               </ion-list>
             </ion-col>
             <ion-col text-center>
-              <ion-button shape="round" color="danger">Add Points</ion-button> <!-- add functionality -->
+              <ion-button shape="round" color="danger"(click)=addpoints(i.eid)>Add Points</ion-button> <!-- add functionality -->
             </ion-col>
           </ion-item>
         </ion-list>

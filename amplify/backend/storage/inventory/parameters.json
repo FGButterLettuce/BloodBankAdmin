@@ -1,0 +1,5 @@
+{
+    "tableName": "inventory",
+    "partitionKeyName": "bloodgroup",
+    "partitionKeyType": "S"
+}

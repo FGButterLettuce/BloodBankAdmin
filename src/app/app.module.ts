@@ -11,6 +11,9 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { AmplifyAngularModule, AmplifyService } from 'aws-amplify-angular';
 
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { environment } from 'src/environments/environment';
 
 import Amplify, { Analytics } from 'aws-amplify';
 import aws_exports from '../aws-exports.js';
@@ -20,7 +23,7 @@ Amplify.configure(aws_exports);
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, AmplifyAngularModule],
+  imports: [AngularFireModule.initializeApp(environment.firebase),AngularFirestoreModule,BrowserModule, IonicModule.forRoot(), AppRoutingModule, AmplifyAngularModule],
   providers: [
     StatusBar,
     AmplifyService,
