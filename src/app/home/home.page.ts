@@ -292,7 +292,7 @@ export class HomePage {
     for(let i of this.outputvalues){
       if(i.eid == eid){
         i.points.push({date: new Date(), point: 500})
-        this.amplify.api().put('pointsapi','/points',i)
+        this.amplify.api().post('points','/points',i)
 
       }
     }
