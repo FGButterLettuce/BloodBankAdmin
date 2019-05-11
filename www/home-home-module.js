@@ -18054,67 +18054,72 @@ var HomePage = /** @class */ (function () {
             this.presentAlert("Error", "Enter details");
     };
     HomePage.prototype.addpoints = function (eid) {
+        var _this = this;
         this.loading = true;
         var donationsarr = this.outputvalues;
         var noeid = true;
-        this.points();
-        var pointsarr = this.outputvalues;
-        for (var _i = 0, pointsarr_1 = pointsarr; _i < pointsarr_1.length; _i++) {
-            var j = pointsarr_1[_i];
-            if (j.eid == eid) {
-                pointsarr = j;
+        var pointsfound = false;
+        this.points().then(function (res) {
+            var pointsarr = _this.outputvalues;
+            for (var _i = 0, pointsarr_1 = pointsarr; _i < pointsarr_1.length; _i++) {
+                var j = pointsarr_1[_i];
+                if (j.eid == eid) {
+                    pointsarr = j;
+                    pointsfound = true;
+                    console.log("pointarr assigned", pointsarr);
+                }
             }
-            else {
+            if (!pointsfound) {
                 pointsarr = {
                     eid: String,
                     points: []
                 };
             }
-        }
-        for (var _a = 0, donationsarr_1 = donationsarr; _a < donationsarr_1.length; _a++) {
-            var i = donationsarr_1[_a];
-            if (i.eid == eid) {
-                i.success = true;
-                noeid = false;
-                if (i.cid != null) {
-                    pointsarr.eid = eid;
-                    pointsarr.points.push({ date: moment__WEBPACK_IMPORTED_MODULE_5__(new Date()).format(), point: 500 });
-                    var point = {
-                        body: {
-                            eid: pointsarr.eid,
-                            points: pointsarr.points
-                        }
-                    };
-                    var donation = {
-                        body: i
-                    };
-                    this.amplify.api().post('points', '/points', point).catch(function (err) { return console.log("Error adding points", err); });
-                    this.amplify.api().post('donationsapi', '/donations', donation).catch(function (err) { return console.log("Error adding donation", err); });
-                    this.presentAlert("Success", "Accepted Donation and added Points");
-                    this.loading = false;
-                }
-                else if (i.hid != null) {
-                    pointsarr.eid = eid;
-                    pointsarr.points.push({ date: moment__WEBPACK_IMPORTED_MODULE_5__(new Date()).format(), point: 300 });
-                    var point = {
-                        body: {
-                            eid: pointsarr.eid,
-                            points: pointsarr.points
-                        }
-                    };
-                    var donation = {
-                        body: i
-                    };
-                    this.amplify.api().post('points', '/points', point).catch(function (err) { return console.log("Error adding points", err); });
-                    this.amplify.api().post('donationsapi', '/donations', donation).catch(function (err) { return console.log("Error adding donation", err); });
-                    this.presentAlert("Success", "Accepted Donation and added Points");
-                    this.loading = false;
+            for (var _a = 0, donationsarr_1 = donationsarr; _a < donationsarr_1.length; _a++) {
+                var i = donationsarr_1[_a];
+                if (i.eid == eid) {
+                    i.success = true;
+                    noeid = false;
+                    if (i.cid != null) {
+                        pointsarr.eid = eid;
+                        pointsarr.points.push({ date: moment__WEBPACK_IMPORTED_MODULE_5__(new Date()).format(), point: 500 });
+                        var point = {
+                            body: {
+                                eid: pointsarr.eid,
+                                points: pointsarr.points
+                            }
+                        };
+                        var donation = {
+                            body: i
+                        };
+                        _this.amplify.api().post('points', '/points', point).catch(function (err) { return console.log("Error adding points", err); });
+                        _this.amplify.api().post('donationsapi', '/donations', donation).catch(function (err) { return console.log("Error adding donation", err); });
+                        _this.presentAlert("Success", "Accepted Donation and added Points");
+                        _this.loading = false;
+                    }
+                    else if (i.hid != null) {
+                        pointsarr.eid = eid;
+                        pointsarr.points.push({ date: moment__WEBPACK_IMPORTED_MODULE_5__(new Date()).format(), point: 300 });
+                        var point = {
+                            body: {
+                                eid: pointsarr.eid,
+                                points: pointsarr.points
+                            }
+                        };
+                        var donation = {
+                            body: i
+                        };
+                        _this.amplify.api().post('points', '/points', point).catch(function (err) { return console.log("Error adding points", err); });
+                        _this.amplify.api().post('donationsapi', '/donations', donation).catch(function (err) { return console.log("Error adding donation", err); });
+                        _this.presentAlert("Success", "Accepted Donation and added Points");
+                        _this.loading = false;
+                    }
                 }
             }
-        }
-        if (noeid) {
-            this.presentAlert("Error", "EID Incorrect");
-        }
+            if (noeid) {
+                _this.presentAlert("Error", "EID Incorrect");
+            }
+        });
     };
     HomePage = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({

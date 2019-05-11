@@ -33,7 +33,7 @@ export class HomePage {
     this.alerts = this.afs.collection('inventoryalerts')
   }
 
-  async presentAlert(head,data) {
+  async presentAlert(head, data) {
     let alert = await this.alertController.create({
       header: head,
       message: data,
@@ -79,7 +79,7 @@ export class HomePage {
           this.loading = false;
         }
         else
-          this.presentAlert("Error","No record found");
+          this.presentAlert("Error", "No record found");
       })
     }
   }
@@ -108,7 +108,7 @@ export class HomePage {
           this.loading = false;
         }
         else
-          this.presentAlert("Error","No record found");
+          this.presentAlert("Error", "No record found");
       })
     }
   }
@@ -141,7 +141,7 @@ export class HomePage {
 
         }
         else
-          this.presentAlert("Error","No record found");
+          this.presentAlert("Error", "No record found");
       })
     }
   }
@@ -172,7 +172,7 @@ export class HomePage {
           this.loading = false;
         }
         else
-          this.presentAlert("Error","No record found");
+          this.presentAlert("Error", "No record found");
       })
     }
   }
@@ -201,7 +201,7 @@ export class HomePage {
           this.loading = false;
         }
         else
-          this.presentAlert("Error","No record found");
+          this.presentAlert("Error", "No record found");
       })
     }
   }
@@ -232,7 +232,7 @@ export class HomePage {
 
         }
         else
-          this.presentAlert("Error","No record found");
+          this.presentAlert("Error", "No record found");
       })
     }
   }
@@ -266,7 +266,7 @@ export class HomePage {
           this.loading = false;
         }
         else
-          this.presentAlert("Error","No record found");
+          this.presentAlert("Error", "No record found");
       })
     }
   }
@@ -281,67 +281,73 @@ export class HomePage {
       this.emergencyhname = null
     }
     else
-      this.presentAlert("Error","Enter details");
+      this.presentAlert("Error", "Enter details");
   }
   addpoints(eid) {
     this.loading = true;
     var donationsarr = this.outputvalues;
     var noeid = true;
-    this.points();
-    var pointsarr = this.outputvalues;
-    for (let j of pointsarr) {
-      if (j.eid == eid) {
-        pointsarr = j;
+    var pointsfound = false;
+    this.points().then(res => {
+      var pointsarr = this.outputvalues;
+      for (let j of pointsarr) {
+        if (j.eid == eid) {
+          pointsarr = j;
+          pointsfound = true;
+          console.log("pointarr assigned", pointsarr)
+        }
       }
-      else {
+      if (!pointsfound) {
         pointsarr = {
           eid: String,
           points: []
         }
       }
-    }
-    for (let i of donationsarr) {
-      if (i.eid == eid) {
-        i.success = true;
-        noeid=false;
-        if (i.cid != null) {
-          pointsarr.eid = eid;
-          pointsarr.points.push({ date: moment(new Date()).format(), point: 500 })
-          var point = {
-            body: {
-              eid: pointsarr.eid,
-              points: pointsarr.points
+      for (let i of donationsarr) {
+        if (i.eid == eid) {
+          i.success = true;
+          noeid = false;
+          if (i.cid != null) {
+            pointsarr.eid = eid;
+            pointsarr.points.push({ date: moment(new Date()).format(), point: 500 })
+            var point = {
+              body: {
+                eid: pointsarr.eid,
+                points: pointsarr.points
+              }
             }
-          }
-          var donation = {
-            body: i 
-          }
-          this.amplify.api().post('points', '/points', point).catch(err => console.log("Error adding points", err))
-          this.amplify.api().post('donationsapi', '/donations', donation).catch(err => console.log("Error adding donation", err))
-          this.presentAlert("Success","Accepted Donation and added Points");
-          this.loading = false;
-        }
-        else if (i.hid != null) {
-          pointsarr.eid = eid;
-          pointsarr.points.push({ date: moment(new Date()).format(), point: 300 })
-          var point = {
-            body: {
-              eid: pointsarr.eid,
-              points: pointsarr.points
+            var donation = {
+              body: i
             }
+            this.amplify.api().post('points', '/points', point).catch(err => console.log("Error adding points", err))
+            this.amplify.api().post('donationsapi', '/donations', donation).catch(err => console.log("Error adding donation", err))
+            this.presentAlert("Success", "Accepted Donation and added Points");
+            this.loading = false;
           }
-          var donation = {
-            body: i 
+          else if (i.hid != null) {
+            pointsarr.eid = eid;
+            pointsarr.points.push({ date: moment(new Date()).format(), point: 300 })
+            var point = {
+              body: {
+                eid: pointsarr.eid,
+                points: pointsarr.points
+              }
+            }
+            var donation = {
+              body: i
+            }
+            this.amplify.api().post('points', '/points', point).catch(err => console.log("Error adding points", err))
+            this.amplify.api().post('donationsapi', '/donations', donation).catch(err => console.log("Error adding donation", err))
+            this.presentAlert("Success", "Accepted Donation and added Points");
+            this.loading = false;
           }
-          this.amplify.api().post('points', '/points', point).catch(err => console.log("Error adding points", err))
-          this.amplify.api().post('donationsapi', '/donations', donation).catch(err => console.log("Error adding donation", err))
-          this.presentAlert("Success","Accepted Donation and added Points");
-          this.loading = false;
         }
       }
-    }
-    if(noeid){
-      this.presentAlert("Error","EID Incorrect");
-    }
+      if (noeid) {
+        this.presentAlert("Error", "EID Incorrect");
+      }
+    });
   }
+
+
 }
