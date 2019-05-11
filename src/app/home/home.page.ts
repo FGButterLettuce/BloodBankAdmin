@@ -326,8 +326,8 @@ export class HomePage {
           pointsarr.points.push({ date: moment(new Date()).format(), point: 300 })
           var point = {
             body: {
-              eid: i.eid,
-              points: i.points
+              eid: pointsarr.eid,
+              points: pointsarr.points
             }
           }
           var donation = {
