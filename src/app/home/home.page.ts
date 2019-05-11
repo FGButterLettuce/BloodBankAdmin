@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AmplifyService } from 'aws-amplify-angular';
 import { AlertController } from '@ionic/angular';
 import { AngularFirestore } from '@angular/fire/firestore';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-home',
@@ -32,9 +33,9 @@ export class HomePage {
     this.alerts = this.afs.collection('inventoryalerts')
   }
 
-  async presentAlert(data) {
+  async presentAlert(head,data) {
     let alert = await this.alertController.create({
-      header: 'Error',
+      header: head,
       message: data,
       buttons: ['OK']
     });
@@ -66,7 +67,7 @@ export class HomePage {
           this.loading = false;
         }
         else
-          this.presentAlert("Error issa blanka");
+          this.presentAlert("Error", "No records to show");
       }).catch(err => console.log(err))
     }
     else {
@@ -78,7 +79,7 @@ export class HomePage {
           this.loading = false;
         }
         else
-          this.presentAlert("No record found");
+          this.presentAlert("Error","No record found");
       })
     }
   }
@@ -90,12 +91,11 @@ export class HomePage {
       await this.amplify.api().get('donationsapi', '/donations', {}).then((res) => {
         if (res && res.length > 0) {
           this.outputvalues = res;
-          console.log(this.outputvalues)
           this.donationres = true;
           this.loading = false;
         }
         else
-          this.presentAlert("Error issa blanka");
+          this.presentAlert("Error", "No records to show");
       }).catch(err => console.log(err))
 
     }
@@ -108,7 +108,7 @@ export class HomePage {
           this.loading = false;
         }
         else
-          this.presentAlert("No record found");
+          this.presentAlert("Error","No record found");
       })
     }
   }
@@ -127,7 +127,7 @@ export class HomePage {
 
         }
         else
-          this.presentAlert("Error issa blanka");
+          this.presentAlert("Error", "No records to show");
       }).catch(err => console.log(err))
 
     }
@@ -141,7 +141,7 @@ export class HomePage {
 
         }
         else
-          this.presentAlert("No record found");
+          this.presentAlert("Error","No record found");
       })
     }
   }
@@ -151,14 +151,13 @@ export class HomePage {
     this.loading = true;
     if (!this.input) {
       await this.amplify.api().get('hospitalsapi', '/hospitals', {}).then((res) => {
-        console.log("reached api call")
         if (res && res.length > 0) {
           this.outputvalues = res;
           this.hospitalres = true;
           this.loading = false;
         }
         else
-          this.presentAlert("Error issa blanka");
+          this.presentAlert("Error", "No records to show");
       }).catch(err => console.log(err))
 
 
@@ -173,7 +172,7 @@ export class HomePage {
           this.loading = false;
         }
         else
-          this.presentAlert("No record found");
+          this.presentAlert("Error","No record found");
       })
     }
   }
@@ -183,14 +182,13 @@ export class HomePage {
     this.loading = true;
     if (!this.input) {
       await this.amplify.api().get('inventoryapi', '/inventory', {}).then((res) => {
-        console.log("reached api call")
         if (res && res.length > 0) {
           this.outputvalues = res;
           this.inventoryres = true;
           this.loading = false;
         }
         else
-          this.presentAlert("Error issa blanka");
+          this.presentAlert("Error", "No records to show");
       }).catch(err => console.log(err))
 
     }
@@ -203,7 +201,7 @@ export class HomePage {
           this.loading = false;
         }
         else
-          this.presentAlert("No record found");
+          this.presentAlert("Error","No record found");
       })
     }
   }
@@ -213,7 +211,6 @@ export class HomePage {
     this.loading = true;
     if (!this.input) {
       await this.amplify.api().get('points', '/points', {}).then((res) => {
-        console.log("reached api call")
         if (res && res.length > 0) {
           this.outputvalues = res;
           this.pointres = true;
@@ -221,7 +218,7 @@ export class HomePage {
 
         }
         else
-          this.presentAlert("Error issa blanka");
+          this.presentAlert("Error", "No records to show");
       }).catch(err => console.log(err))
 
 
@@ -230,13 +227,12 @@ export class HomePage {
       await this.amplify.api().get('points', `/points/${this.input}`, {}).then((res) => {
         if (res && res.length > 0) {
           this.outputvalues = res;
-          // console.log(this.outputvalues)
           this.pointres = true;
           this.loading = false;
 
         }
         else
-          this.presentAlert("No record found");
+          this.presentAlert("Error","No record found");
       })
     }
   }
@@ -256,7 +252,7 @@ export class HomePage {
           this.loading = false;
         }
         else
-          this.presentAlert("Error issa blanka");
+          this.presentAlert("Error", "No records to show");
       }).catch(err => console.log(err))
 
 
@@ -266,12 +262,11 @@ export class HomePage {
       await this.amplify.api().get('campaignsapi', `/campaigns/${this.input}`, {}).then((res) => {
         if (res && res.length > 0) {
           this.outputvalues = res;
-          console.log(this.outputvalues)
           this.campaignres = true;
           this.loading = false;
         }
         else
-          this.presentAlert("No record found");
+          this.presentAlert("Error","No record found");
       })
     }
   }
@@ -286,16 +281,66 @@ export class HomePage {
       this.emergencyhname = null
     }
     else
-      this.presentAlert("Enter details");
+      this.presentAlert("Error","Enter details");
   }
-  addpoints(eid){
-    for(let i of this.outputvalues){
-      if(i.eid == eid){
-        i.points.push({date: new Date(), point: 500})
-        this.amplify.api().post('points','/points',i)
-
+  addpoints(eid) {
+    this.loading = true;
+    var donationsarr = this.outputvalues;
+    var noeid = true;
+    this.points();
+    var pointsarr = this.outputvalues;
+    for (let j of pointsarr) {
+      if (j.eid == eid) {
+        pointsarr = j;
+      }
+      else {
+        pointsarr = {
+          eid: String,
+          points: []
+        }
       }
     }
-
+    for (let i of donationsarr) {
+      if (i.eid == eid) {
+        i.success = true;
+        noeid=false;
+        if (i.cid != null) {
+          pointsarr.eid = eid;
+          pointsarr.points.push({ date: moment(new Date()).format(), point: 500 })
+          var point = {
+            body: {
+              eid: pointsarr.eid,
+              points: pointsarr.points
+            }
+          }
+          var donation = {
+            body: i 
+          }
+          this.amplify.api().post('points', '/points', point).catch(err => console.log("Error adding points", err))
+          this.amplify.api().post('donationsapi', '/donations', donation).catch(err => console.log("Error adding donation", err))
+          this.presentAlert("Success","Accepted Donation and added Points");
+          this.loading = false;
+        }
+        else if (i.hid != null) {
+          i.points.push({ date: moment(new Date()).format(), point: 300 })
+          var point = {
+            body: {
+              eid: i.eid,
+              points: i.points
+            }
+          }
+          var donation = {
+            body: i 
+          }
+          this.amplify.api().post('points', '/points', point).catch(err => console.log("Error adding points", err))
+          this.amplify.api().post('donationsapi', '/donations', donation).catch(err => console.log("Error adding donation", err))
+          this.presentAlert("Success","Accepted Donation and added Points");
+          this.loading = false;
+        }
+      }
+    }
+    if(noeid){
+      this.presentAlert("Error","EID Incorrect");
+    }
   }
 }

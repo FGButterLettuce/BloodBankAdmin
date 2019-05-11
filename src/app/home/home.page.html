@@ -2,14 +2,14 @@
   <h1 padding-top="60px" text-center><b>Hospital Endpoint</b></h1>
   <div class="center-div">
     <ion-item>
-      <ion-input [(ngModel)]="input" size="large" placeholder="Search...">
+      <ion-input [(ngModel)]="input" width="1200px" placeholder="Search...">
       </ion-input>
     </ion-item>
     <ion-chip color="primary" (click)="records()">Records</ion-chip>
     <ion-chip color="secondary" (click)="donations()">Donations</ion-chip>
     <ion-chip color="tertiary" (click)="donors()">Donors</ion-chip>
     <ion-chip color="warning" (click)="hospitals()">Hospitals</ion-chip>
-    <ion-chip color="success"(click)="inventory()">Inventory</ion-chip>
+    <ion-chip color="success" (click)="inventory()">Inventory</ion-chip>
     <ion-chip color="danger" (click)="points()">Points</ion-chip>
     <ion-chip color="medium" (click)="campaigns()">Campaigns</ion-chip>
 
@@ -19,122 +19,161 @@
       <div class="record" *ngIf="recordres">
         <ion-card-title text-center>Records</ion-card-title>
         <ion-item>
-          <ion-col text-center>RID</ion-col>
-          <ion-col text-center>HID</ion-col>
-          <ion-col text-center>EID</ion-col>
-          <ion-col text-center>Name</ion-col>
-          <ion-col text-center>Gender</ion-col>
-          <ion-col text-center>Age</ion-col>
-          <ion-col text-center>Date of Birth</ion-col>
-          <ion-col text-center>Blood Group</ion-col>
+          <table>
+            <tr>
+              <th>RID</th>
+              <th>HID</th>
+              <th>EID</th>
+              <th>Name</th>
+              <th>Gender</th>
+              <th>Age</th>
+              <th>Date of Birth</th>
+              <th>Blood Type</th>
+            </tr>
+            <tr *ngFor="let i of outputvalues">
+              <td>{{i.rid}}</td>
+              <td>{{i.hid}}</td>
+              <td>{{i.eid}}</td>
+              <td>{{i.name}}</td>
+              <td>{{i.gender}}</td>
+              <td>{{i.age}}</td>
+              <td>{{i.dob}}</td>
+              <td>{{i.bloodgroup}}</td>
+            </tr>
+          </table>
         </ion-item>
-        <ion-list *ngFor="let i of outputvalues">
-          <ion-item>
-            <ion-col text-center>{{i.rid}}</ion-col>
-            <ion-col text-center>{{i.hid}}</ion-col>
-            <ion-col text-center>{{i.eid}}</ion-col>
-            <ion-col text-center>{{i.name}}</ion-col>
-            <ion-col text-center>{{i.gender}}</ion-col>
-            <ion-col text-center>{{i.age}}</ion-col>
-            <ion-col text-center>{{i.dob}}</ion-col>
-            <ion-col text-center>{{i.bloodgroup}}</ion-col>
-          </ion-item>
-        </ion-list>
       </div>
 
       <div class="donation" *ngIf="donationres">
         <ion-card-title text-center>Donations</ion-card-title>
-        <ion-list *ngFor="let i of outputvalues">
-          <ion-item>
-            <ion-col text-center>{{i.eid}}</ion-col>
-            <ion-col text-center>{{i.bloodgroup}}</ion-col>
-            <ion-col text-center *ngIf="i.cid">{{i.cid}}</ion-col>
-            <ion-col text-center *ngIf="i.hid">{{i.hid}}</ion-col>
-            <ion-col text-center>{{i.date}}</ion-col>
-            <ion-col text-center>{{i.bloodgroup}}</ion-col>
-            <ion-col text-center>{{i.success}}</ion-col>
-          </ion-item>
-        </ion-list>
+        <ion-item>
+          <table>
+            <tr>
+              <th>EID</th>
+              <th>Blood Type</th>
+              <th>CID/HID</th>
+              <th>Date</th>
+              <th>Success</th>
+            </tr>
+            <tr *ngFor="let i of outputvalues">
+              <td>{{i.eid}}</td>
+              <td>{{i.bloodgroup}}</td>
+              <td *ngIf="i.cid !=null">{{i.cid}}</td>
+              <td *ngIf="i.hid !=null">{{i.hid}}</td>
+              <td>{{i.date}}</td>
+              <td>{{i.success}}</td>
+              <td>
+                <ion-button shape="round" color="danger" (click)="addpoints(i.eid)">Accept Donation</ion-button>
+              </td>
+            </tr>
+          </table>
+        </ion-item>
       </div>
       <div class="donor" *ngIf="donorres">
         <ion-card-title text-center>Donors</ion-card-title>
-        <ion-list *ngFor="let i of outputvalues">
-          <ion-item>
-            <ion-col text-center>{{i.eid}}</ion-col>
-            <ion-col text-center>{{i.email}}</ion-col>
-            <ion-col text-center>{{i.name}}</ion-col>
-          </ion-item>
-        </ion-list>
+        <ion-item>
+          <table>
+            <tr>
+              <th>EID</th>
+              <th>Email</th>
+              <th>Name</th>
+            </tr>
+            <tr *ngFor="let i of outputvalues">
+              <td>{{i.eid}}</td>
+              <td>{{i.email}}</td>
+              <td>{{i.name}}</td>
+            </tr>
+          </table>
+        </ion-item>
       </div>
-
       <div class="inventory" *ngIf="hospitalres">
         <ion-card-title text-center>Hospitals</ion-card-title>
-        <ion-list *ngFor="let i of outputvalues">
-          <ion-item>
-            <ion-col text-center>{{i.hid}}</ion-col>
-            <ion-col text-center>{{i.address}}</ion-col>
-            <ion-col text-center>{{i.hname}}</ion-col>
-            <ion-col text-center>{{i.pno}}</ion-col>
-          </ion-item>
-        </ion-list>
+        <ion-item>
+          <table>
+            <tr>
+              <th>HID</th>
+              <th>Address</th>
+              <th>Hospital Name</th>
+              <th>Phone No.</th>
+            </tr>
+            <tr *ngFor="let i of outputvalues">
+              <td>{{i.hid}}</td>
+              <td>{{i.address}}</td>
+              <td>{{i.hname}}</td>
+              <td>{{i.pno}}</td>
+            </tr>
+          </table>
+        </ion-item>
       </div>
 
-      <div class="inventory" *ngIf="inventoryres">
-        <ion-card-title text-center>Inventory</ion-card-title>
+      <div text-center class="inventory" *ngIf="inventoryres">
         <ion-item>
-            <ion-col text-center>Blood Group</ion-col>
-            <ion-col text-center>Reserve Levels</ion-col>
-          </ion-item>
-        <ion-list *ngFor="let i of outputvalues">
-          <ion-item>
-            <ion-col text-center>
-              {{i.bloodgroup}}
-            </ion-col>
-            <ion-col>
-              {{i.reservelevels}}
-            </ion-col>
-          </ion-item>
-        </ion-list>
-        <ion-label>Enter Blood</ion-label><ion-input [(ngModel)]="emergencyblood" placeholder = "Blood Type"></ion-input>
-        <ion-label>Enter Name of Hospital</ion-label><ion-input [(ngModel)]="emergencyhname" placeholder = "Hospital Name"></ion-input>
-        <ion-button shape="round" color="danger" (click) = "emergency()">Send Emergency Request</ion-button>        
+          <table>
+            <tr>
+              <th>Blood Type</th>
+              <th>Reserve Levels</th>
+            </tr>
+            <tr *ngFor="let i of outputvalues">
+              <td>{{i.bloodgroup}}</td>
+              <td>{{i.reservelevels}}</td>
+            </tr>
+          </table>
+        </ion-item>
+        <ion-item>
+          <ion-label>Enter Blood Type:&nbsp; </ion-label>
+          <ion-input [(ngModel)]="emergencyblood" placeholder="XY+"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label>Enter Hospital Name:&nbsp; </ion-label>
+          <ion-input [(ngModel)]="emergencyhname" placeholder="ABCD Hospital"></ion-input>
+        </ion-item>
+        <ion-button shape="round" color="danger" (click)="emergency()">Send Emergency Request</ion-button>
       </div>
 
       <div class="point" *ngIf="pointres">
         <ion-card-title text-center>Point Editor</ion-card-title>
-        <ion-list *ngFor="let i of outputvalues">
-          <ion-item>
-            <ion-col text-center>{{i.eid}}</ion-col>
-            <ion-col text-center>
-              <ion-list *ngFor="let j of i.points">
-                <ion-col>
-                  <ion-label>{{j.date}}&nbsp;&nbsp;{{j.point}}</ion-label>
-                </ion-col>
-              </ion-list>
-            </ion-col>
-            <ion-col text-center>
-              <ion-button shape="round" color="danger"(click)=addpoints(i.eid)>Add Points</ion-button> <!-- add functionality -->
-            </ion-col>
-          </ion-item>
-        </ion-list>
+        <ion-item>
+          <table>
+            <tr>
+              <th>EID</th>
+              <th>Date & Points</th>
+            </tr>
+            <tr *ngFor="let i of outputvalues">
+              <td>{{i.eid}}</td>
+              <ng-container *ngFor="let j of i.points">
+            <tr>
+              <td>{{j.date}}</td>
+              <td>{{j.point}}</td>
+            </tr>
+            </ng-container>
+            </tr>
+          </table>
+        </ion-item>
       </div>
 
       <div class="campaign" *ngIf="campaignres">
         <ion-card-title text-center>Campaigns</ion-card-title>
-        <ion-list *ngFor="let i of outputvalues">
-          <ion-item>
-            <ion-col text-center>{{i.cid}}</ion-col>
-            <ion-col text-center>{{i.name}}</ion-col>
-            <ion-col text-center>{{i.address}}</ion-col>
-            <ion-col text-center>{{i.organization}}</ion-col>
-            <ion-col text-center>{{i.start}}</ion-col>
-            <ion-col text-center>{{i.end}}</ion-col>
-          </ion-item>
-        </ion-list>
+        <ion-item>
+          <table>
+            <tr>
+              <th>CID</th>
+              <th>Name</th>
+              <th>Address</th>
+              <th>Organization</th>
+              <th>Start Date</th>
+              <th>End Date</th>
+            </tr>
+            <tr *ngFor="let i of outputvalues">
+              <td>{{i.cid}}</td>
+              <td>{{i.name}}</td>
+              <td>{{i.address}}</td>
+              <td>{{i.organization}}</td>
+              <td>{{i.start}}</td>
+              <td>{{i.end}}</td>
+            </tr>
+          </table>
+        </ion-item>
       </div>
-
     </ion-card>
   </div>
-
-
 </ion-content>

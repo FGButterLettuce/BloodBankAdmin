@@ -15,6 +15,9 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from 'src/environments/environment';
 
+import * as moment from 'moment';
+
+
 import Amplify, { Analytics } from 'aws-amplify';
 import aws_exports from '../aws-exports.js';
 
