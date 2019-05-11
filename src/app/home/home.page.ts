@@ -322,7 +322,8 @@ export class HomePage {
           this.loading = false;
         }
         else if (i.hid != null) {
-          i.points.push({ date: moment(new Date()).format(), point: 300 })
+          pointsarr.eid = eid;
+          pointsarr.points.push({ date: moment(new Date()).format(), point: 300 })
           var point = {
             body: {
               eid: i.eid,

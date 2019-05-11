@@ -18094,7 +18094,8 @@ var HomePage = /** @class */ (function () {
                     this.loading = false;
                 }
                 else if (i.hid != null) {
-                    i.points.push({ date: moment__WEBPACK_IMPORTED_MODULE_5__(new Date()).format(), point: 300 });
+                    pointsarr.eid = eid;
+                    pointsarr.points.push({ date: moment__WEBPACK_IMPORTED_MODULE_5__(new Date()).format(), point: 300 });
                     var point = {
                         body: {
                             eid: i.eid,
